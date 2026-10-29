@@ -1,4 +1,4 @@
-@props(['kolom' => [], 'baris' => []])
+@props(['kolom' => [], 'baris' => [], 'linkNim' => false])
 
 <div class="table-responsive">
     <table class="table table-striped table-hover align-middle mb-0">
@@ -16,13 +16,18 @@
                     <td>{{ $loop->iteration }}</td>
                     @foreach ($kolom as $kunci => $judul)
                         <td>
-                            @if ($kunci === 'status')
+                            @if ($kunci === 'nim' && $linkNim)
+                                <a href="{{ route('mahasiswa.show', $item['nim']) }}"
+                                   class="fw-semibold text-decoration-none">
+                                    {{ $item[$kunci] }}
+                                </a>
+                            @elseif ($kunci === 'status')
                                 @php
                                     $warna = match ($item[$kunci]) {
                                         'Aktif', 'Disetujui' => 'success',
-                                        'Menunggu', 'Cuti' => 'warning',
-                                        'Ditolak' => 'danger',
-                                        default => 'secondary',
+                                        'Menunggu', 'Cuti'   => 'warning',
+                                        'Ditolak'            => 'danger',
+                                        default              => 'secondary',
                                     };
                                 @endphp
                                 <span class="badge text-bg-{{ $warna }}">
