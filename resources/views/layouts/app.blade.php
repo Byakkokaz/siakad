@@ -9,6 +9,8 @@
           rel="stylesheet">
     <link href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.min.css') }}"
           rel="stylesheet">
+    <link href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}"
+          rel="stylesheet">
     <link href="{{ asset('css/siakad.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
@@ -31,8 +33,8 @@
             </main>
         </div>
     </div>
-
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
     <script>
         const htmlElement = document.documentElement;
         const btnTema = document.getElementById('btnTema');
@@ -43,7 +45,6 @@
 
             htmlElement.setAttribute('data-bs-theme', newTheme);
 
-            // Ubah ikon tombol
             if (newTheme === 'dark') {
                 btnTema.innerHTML = '<i class="bi bi-sun-fill"></i>';
             } else {

@@ -34,7 +34,7 @@
                                     {{ $item[$kunci] }}
                                 </span>
                             @else
-                                {{ $item[$kunci] }}
+                                {{ $item[$kunci] ?? '-' }}
                             @endif
                         </td>
                     @endforeach

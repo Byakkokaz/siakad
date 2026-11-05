@@ -24,8 +24,19 @@
                 </div>
 
                 <div class="mb-3">
-                    <x-form-input label="Kata Sandi" name="password" type="password"
-                                  autocomplete="current-password" required />
+                    <label for="password" class="form-label">Kata Sandi</label>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password"
+                               class="form-control @error('password') is-invalid @enderror"
+                               autocomplete="current-password" required>
+                        <button class="btn btn-outline-secondary" type="button" id="btnTogglePassword"
+                                aria-label="Tampilkan atau sembunyikan kata sandi">
+                            <i class="bi bi-eye" id="iconTogglePassword"></i>
+                        </button>
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
 
                 <div class="form-check mb-3">
@@ -39,3 +50,23 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnToggle = document.getElementById('btnTogglePassword');
+        const passwordInput = document.getElementById('password');
+        const iconToggle = document.getElementById('iconTogglePassword');
+
+        if (btnToggle && passwordInput && iconToggle) {
+            btnToggle.addEventListener('click', function () {
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+
+                iconToggle.classList.toggle('bi-eye', !isPassword);
+                iconToggle.classList.toggle('bi-eye-slash', isPassword);
+            });
+        }
+    });
+</script>
+@endpush

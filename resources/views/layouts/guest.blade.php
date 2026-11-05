@@ -9,6 +9,8 @@
           rel="stylesheet">
     <link href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.min.css') }}"
           rel="stylesheet">
+    <link href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}"
+          rel="stylesheet">
     <link href="{{ asset('css/siakad.css') }}" rel="stylesheet">
 </head>
 <body class="bg-body-tertiary">
@@ -21,5 +23,7 @@
 
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}">
     </script>
+    <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>
