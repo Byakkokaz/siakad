@@ -22,34 +22,47 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
-
-    Route::get('/mahasiswa', [MahasiswaController::class, 'index'])
-        ->name('mahasiswa.index');
-    Route::get('/mahasiswa/{nim}', [MahasiswaController::class, 'show'])
-        ->name('mahasiswa.show');
         
-    Route::get('/mata-kuliah', [MataKuliahController::class, 'index'])
-        ->name('matakuliah.index');
-    Route::get('/krs', [KrsController::class, 'index'])
-        ->name('krs.index');
-
     Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda');
 
-    // Data Dosen (Jobsheet 11)
-    // 1) Endpoint JSON DataTables: HARUS di atas route yang memuat {dosen}
+    // 1) Endpoint JSON DataTables 
     Route::get('/dosen/data', [DosenController::class, 'data'])->name('dosen.data');
+    Route::get('/mahasiswa/data', [MahasiswaController::class, 'data'])->name('mahasiswa.data');
+    Route::get('/mata-kuliah/data', [MataKuliahController::class, 'data'])->name('matakuliah.data');
+    Route::get('/krs/data', [KrsController::class, 'data'])->name('krs.data');
 
-    // 2) Tambah, ubah, hapus: khusus admin (role berjalan SETELAH auth)
+    // 2) Tambah, ubah, hapus: khusus admin
     Route::middleware('role:admin')->group(function () {
         Route::resource('dosen', DosenController::class)
+            ->except(['index', 'show']);
+            
+        Route::resource('mahasiswa', MahasiswaController::class)
+            ->except(['index', 'show']);
+            
+        Route::resource('matakuliah', MataKuliahController::class)
+            ->parameters(['matakuliah' => 'mataKuliah'])
+            ->except(['index', 'show']);
+
+        Route::resource('krs', KrsController::class)
+            ->parameters(['krs' => 'krs'])
             ->except(['index', 'show']);
     });
 
     // 3) Daftar dan detail: semua pengguna yang sudah login
     Route::resource('dosen', DosenController::class)
         ->only(['index', 'show']);
+        
+    Route::resource('mahasiswa', MahasiswaController::class)
+        ->only(['index', 'show']);
+        
+    Route::resource('matakuliah', MataKuliahController::class)
+        ->parameters(['matakuliah' => 'mataKuliah'])
+        ->only(['index', 'show']);
 
-    // Hanya admin; middleware role berjalan SETELAH auth karena berada di dalam grup auth
+    Route::resource('krs', KrsController::class)
+        ->parameters(['krs' => 'krs'])
+        ->only(['index', 'show']);
+
     Route::get('/pengguna', [PenggunaController::class, 'index'])
         ->middleware('role:admin')
         ->name('pengguna.index');
